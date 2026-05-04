@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exercice 1 – CSS Positionnement & Bootstrap</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <style>
+    :root {
+      --rouge: #c97b84;
+      --kaki:  #b5a98e;
+      --bleu:  #5b8fc9;
+      --bg:    #f7f5f2;
+      --card:  #ffffff;
+      --dark:  #1e2535;
+      --mid:   #4a5568;
+      --line:  #e2ddd8;
+      --accent:#e07b5a;
+      --radius: 10px;
+      --shadow: 0 4px 24px rgba(30,37,53,.08);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--dark); }
+ 
+    /* ── Page Header ── */
+    .page-header {
+      background: var(--dark);
+      padding: 52px 48px 40px;
+      position: relative;
+      overflow: hidden;
+    }
+    .page-header::before {
+      content: '';
+      position: absolute; top: -80px; right: -80px;
+      width: 300px; height: 300px; border-radius: 50%;
+      background: rgba(91,143,201,.12);
+    }
+    .page-header::after {
+      content: '';
+      position: absolute; bottom: -50px; left: 38%;
+      width: 180px; height: 180px; border-radius: 50%;
+      background: rgba(224,123,90,.09);
+    }
+    .badge-tp {
+      display: inline-block;
+      background: var(--accent); color: white;
+      font-size: .7rem; font-weight: 500;
+      letter-spacing: 2px; text-transform: uppercase;
+      padding: 4px 14px; border-radius: 20px; margin-bottom: 16px;
+    }
+    .page-header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.4rem; color: white; line-height: 1.25;
+      position: relative; z-index: 1;
+    }
+    .page-header p {
+      color: rgba(255,255,255,.5); font-size: .88rem;
+      margin-top: 10px; font-weight: 300; position: relative; z-index: 1;
+    }
+ 
+    /* ── Content wrapper ── */
+    .content { padding: 44px 48px; max-width: 1100px; margin: 0 auto; }
+ 
+    /* ── Method card ── */
+    .method-block {
+      background: var(--card);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      margin-bottom: 40px;
+      overflow: hidden;
+      border: 1px solid rgba(226,221,216,.6);
+    }
+    .method-header {
+      display: flex; align-items: center; gap: 16px;
+      padding: 22px 32px;
+      border-bottom: 1px solid var(--line);
+      background: #fdfcfb;
+    }
+    .method-num {
+      width: 38px; height: 38px; border-radius: 50%;
+      background: var(--dark); color: white;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .82rem; font-weight: 500; flex-shrink: 0;
+    }
+    .method-header h2 { font-size: 1rem; font-weight: 500; color: var(--dark); }
+    .method-header code {
+      background: rgba(224,123,90,.1); color: var(--accent);
+      padding: 2px 8px; border-radius: 5px; font-size: .78rem; margin-left: 8px;
+    }
+    .method-tag {
+      margin-left: auto;
+      font-size: .7rem; font-weight: 500; letter-spacing: 1px;
+      padding: 4px 12px; border-radius: 20px; text-transform: uppercase;
+    }
+    .tag-css { background: rgba(224,123,90,.1); color: var(--accent); }
+    .tag-bs  { background: rgba(13,110,253,.08); color: #0d6efd; }
+ 
+    .method-body { padding: 32px; }
+ 
+    .divider {
+      display: flex; align-items: center; gap: 14px;
+      color: #9aa; font-size: .76rem; font-weight: 400;
+      margin-bottom: 28px; letter-spacing: .3px;
+    }
+    .divider::before, .divider::after {
+      content: ''; flex: 1; height: 1px; background: var(--line);
+    }
+ 
+    /* ── Figures grid ── */
+    .figures-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+    @media (max-width: 800px) { .figures-grid { grid-template-columns: repeat(2,1fr); } }
+    @media (max-width: 480px) { .figures-grid { grid-template-columns: 1fr; } }
+ 
+    .figure-wrapper { display: flex; flex-direction: column; gap: 12px; }
+ 
+    .figure-stage {
+      background: #f9f8f6;
+      border: 1.5px solid var(--line);
+      border-radius: var(--radius);
+      min-height: 200px;
+      display: flex; align-items: center; justify-content: center;
+      transition: border-color .2s;
+    }
+    .figure-stage:hover { border-color: var(--bleu); }
+ 
+    .fig-caption { display: flex; align-items: center; gap: 8px; }
+    .fig-caption .num {
+      background: var(--bleu); color: white;
+      font-size: .68rem; font-weight: 500;
+      padding: 2px 8px; border-radius: 8px;
+    }
+    .fig-caption .desc { font-size: .78rem; color: var(--mid); }
+ 
+    /* ── Blocs colorés ── */
+    .bloc {
+      border-radius: 7px;
+      box-shadow: 0 3px 10px rgba(0,0,0,.13);
+      transition: transform .18s ease, box-shadow .18s ease;
+    }
+    .bloc:hover { transform: scale(1.05); box-shadow: 0 8px 22px rgba(0,0,0,.2); }
+    .b-r { background: var(--rouge); }
+    .b-k { background: var(--kaki);  }
+    .b-b { background: var(--bleu);  }
+ 
+    /* ── ABSOLU ── */
+    .abs-wrap { position: relative; width: 160px; height: 175px; }
+ 
+    .f1a .b-r { position:absolute; width:74px; height:52px; top:0;    left:0; }
+    .f1a .b-k { position:absolute; width:74px; height:52px; top:58px; left:0; }
+    .f1a .b-b { position:absolute; width:74px; height:52px; top:116px;left:0; }
+ 
+    .f2a .b-r { position:absolute; width:74px; height:52px; top:0;   left:0; }
+    .f2a .b-k { position:absolute; width:74px; height:52px; top:38px;left:42px; }
+    .f2a .b-b { position:absolute; width:74px; height:52px; top:76px;left:84px; }
+ 
+    .f3a { width:170px; height:140px; }
+    .f3a .b-r { position:absolute; width:162px; height:60px; top:0;   left:0; }
+    .f3a .b-k { position:absolute; width:78px;  height:60px; top:66px;left:0; }
+    .f3a .b-b { position:absolute; width:78px;  height:60px; top:66px;left:84px; }
+ 
+    .f4a { width:170px; height:140px; }
+    .f4a .b-r { position:absolute; width:78px; height:60px; top:0;   left:0; }
+    .f4a .b-b { position:absolute; width:78px; height:60px; top:0;   left:84px; }
+    .f4a .b-k { position:absolute; width:78px; height:60px; top:66px;left:0; }
+ 
+    /* ── RELATIF ── */
+    .f1r { display:flex; flex-direction:column; gap:6px; }
+    .f1r .bloc { width:74px; height:52px; }
+ 
+    .f2r { display:flex; flex-direction:column; gap:6px; }
+    .f2r .bloc  { width:74px; height:52px; }
+    .f2r .b-k   { position:relative; left:42px; }
+    .f2r .b-b   { position:relative; left:84px; }
+ 
+    .f3r { display:flex; flex-direction:column; gap:6px; width:162px; }
+    .f3r .b-r   { height:60px; }
+    .f3r .row2  { display:flex; gap:6px; }
+    .f3r .row2 .bloc { flex:1; height:60px; }
+ 
+    .f4r { display:flex; flex-direction:column; gap:6px; width:162px; }
+    .f4r .row1  { display:flex; gap:6px; }
+    .f4r .row1 .bloc { flex:1; height:60px; }
+    .f4r .b-k   { width:78px; height:60px; }
+ 
+    /* ── BOOTSTRAP blocs ── */
+    .bs-b { border-radius:7px; box-shadow:0 3px 10px rgba(0,0,0,.12); height:56px; }
+    .bs-r { background:var(--rouge); }
+    .bs-k { background:var(--kaki);  }
+    .bs-b2{ background:var(--bleu);  }
+    .bs-wrap { width:175px; }
+  </style>
+</head>
+<body>
+ 
+<!-- ═══ PAGE HEADER ═══ -->
+<div class="page-header">
+  <div class="badge-tp">TP N°2 · ENSAH Al-Hoceima</div>
+  <h1>Exercice 1<br>Positionnement CSS & Bootstrap</h1>
+  <p>Positionnement absolu · Positionnement relatif · Grille Bootstrap 5 · Quatre configurations</p>
+</div>
+ 
+<div class="content">
+ 
+  <!-- ══ MÉTHODE 1 : ABSOLU ══ -->
+  <div class="method-block">
+    <div class="method-header">
+      <div class="method-num">1</div>
+      <h2>Positionnement Absolu <code>position: absolute + top/left</code></h2>
+      <span class="method-tag tag-css">CSS Pur</span>
+    </div>
+    <div class="method-body">
+      <div class="divider">Parent en <strong>position:relative</strong> — enfants positionnés avec top/left en pixels</div>
+      <div class="figures-grid">
+ 
+        <div class="figure-wrapper">
+          <div class="figure-stage">
+            <div class="abs-wrap f1a">
+              <div class="bloc b-r"></div>
+              <div class="bloc b-k"></div>
+              <div class="bloc b-b"></div>
+            </div>
+          </div>
+          <div class="fig-caption"><span class="num">Figure 1</span><span class="desc">Pile verticale</span></div>
+        </div>
+ 
+        <div class="figure-wrapper">
+          <div class="figure-stage">
+            <div class="abs-wrap f2a">
+              <div class="bloc b-r"></div>
+              <div class="bloc b-k"></div>
+              <div class="bloc b-b"></div>
+            </div>
+          </div>
+          <div class="fig-caption"><span class="num">Figure 2</span><span class="desc">Escalier diagonal</span></div>
+        </div>
+ 
+        <div class="figure-wrapper">
+          <div class="figure-stage">
+            <div class="abs-wrap f3a">
+              <div class="bloc b-r"></div>
+              <div class="bloc b-k"></div>
+              <div class="bloc b-b"></div>
+            </div>
+          </div>
+          <div class="fig-caption"><span class="num">Figure 3</span><span class="desc">Grand + 2 colonnes</span></div>
+        </div>
+ 
+        <div class="figure-wrapper">
+          <div class="figure-stage">
+            <div class="abs-wrap f4a">
+              <div class="bloc b-r"></div>
+              <div class="bloc b-b"></div>
+              <div class="bloc b-k"></div>
+            </div>
+          </div>
+          <div class="fig-caption"><span class="num">Figure 4</span><span class="desc">2 haut + 1 bas</span></div>
+        </div>
+ 
+      </div>
+    </div>
+  </div>
+ 
+  <!-- ══ MÉTHODE 2 : RELATIF ══ -->
+  <div class="method-block">
+    <div class="method-header">
+      <div class="method-num">2</div>
+      <h2>Positionnement Relatif <code>flexbox + position: relative</code></h2>
+      <span class="method-tag tag-css">CSS Pur</span>
+    </div>
+    <div class="method-body">
+      <div class="divider">Flux naturel <strong>Flexbox</strong> — décalages avec <strong>left</strong> relatif pour l'escalier</div>
+      <div class="figures-grid">
+ 
+        <div class="figure-wrapper">
+          <div class="figure-stage">
+            <div class="f1r">
+              <div class="bloc b-r"></div>
+              <div class="bloc b-k"></div>
+              <div class="bloc b-b"></div>
+            </div>
+          </div>
+          <div class="fig-caption"><span class="num">Figure 1</span><span class="desc">Pile verticale</span></div>
+        </div>
+ 
+        <div class="figure-wrapper">
+          <div class="figure-stage">
+            <div class="f2r">
+              <div class="bloc b-r"></div>
+              <div class="bloc b-k"></div>
+              <div class="bloc b-b"></div>
+            </div>
+          </div>
+          <div class="fig-caption"><span class="num">Figure 2</span><span class="desc">Escalier diagonal</span></div>
+        </div>
+ 
+        <div class="figure-wrapper">
+          <div class="figure-stage">
+            <div class="f3r">
+              <div class="bloc b-r"></div>
+              <div class="row2">
+                <div class="bloc b-k"></div>
+                <div class="bloc b-b"></div>
+              </div>
+            </div>
+          </div>
+          <div class="fig-caption"><span class="num">Figure 3</span><span class="desc">Grand + 2 colonnes</span></div>
+        </div>
+ 
+        <div class="figure-wrapper">
+          <div class="figure-stage">
+            <div class="f4r">
+              <div class="row1">
+                <div class="bloc b-r"></div>
+                <div class="bloc b-b"></div>
+              </div>
+              <div class="bloc b-k"></div>
+            </div>
+          </div>
+          <div class="fig-caption"><span class="num">Figure 4</span><span class="desc">2 haut + 1 bas</span></div>
+        </div>
+ 
+      </div>
+    </div>
+  </div>
+ 
+  <!-- ══ MÉTHODE 3 : BOOTSTRAP ══ -->
+  <div class="method-block">
+    <div class="method-header">
+      <div class="method-num">3</div>
+      <h2>Grille Bootstrap 5 <code>col-* / row / g-*</code></h2>
+      <span class="method-tag tag-bs">Bootstrap 5</span>
+    </div>
+    <div class="method-body">
+      <div class="divider">Système de 12 colonnes Bootstrap — même rendu visuel, code déclaratif simplifié</div>
+      <div class="figures-grid">
+ 
+        <div class="figure-wrapper">
+          <div class="figure-stage">
+            <div class="bs-wrap">
+              <div class="row g-2 flex-column">
+                <div class="col"><div class="bs-b bs-r"></div></div>
+                <div class="col"><div class="bs-b bs-k"></div></div>
+                <div class="col"><div class="bs-b bs-b2"></div></div>
+              </div>
+            </div>
+          </div>
+          <div class="fig-caption"><span class="num">Figure 1</span><span class="desc">Pile verticale</span></div>
+        </div>
+ 
+        <div class="figure-wrapper">
+          <div class="figure-stage">
+            <div style="position:relative;width:160px;height:172px;">
+              <div class="bs-b bs-r" style="position:absolute;top:0;   left:0;  width:74px;"></div>
+              <div class="bs-b bs-k" style="position:absolute;top:62px;left:42px;width:74px;"></div>
+              <div class="bs-b bs-b2"style="position:absolute;top:124px;left:84px;width:74px;"></div>
+            </div>
+          </div>
+          <div class="fig-caption"><span class="num">Figure 2</span><span class="desc">Escalier diagonal</span></div>
+        </div>
+ 
+        <div class="figure-wrapper">
+          <div class="figure-stage">
+            <div class="bs-wrap">
+              <div class="row g-2">
+                <div class="col-12"><div class="bs-b bs-r"></div></div>
+                <div class="col-6"><div class="bs-b bs-k"></div></div>
+                <div class="col-6"><div class="bs-b bs-b2"></div></div>
+              </div>
+            </div>
+          </div>
+          <div class="fig-caption"><span class="num">Figure 3</span><span class="desc">Grand + 2 colonnes</span></div>
+        </div>
+ 
+        <div class="figure-wrapper">
+          <div class="figure-stage">
+            <div class="bs-wrap">
+              <div class="row g-2">
+                <div class="col-6"><div class="bs-b bs-r"></div></div>
+                <div class="col-6"><div class="bs-b bs-b2"></div></div>
+                <div class="col-6"><div class="bs-b bs-k"></div></div>
+              </div>
+            </div>
+          </div>
+          <div class="fig-caption"><span class="num">Figure 4</span><span class="desc">2 haut + 1 bas</span></div>
+        </div>
+ 
+      </div>
+    </div>
+  </div>
+ 
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
