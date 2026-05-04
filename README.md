@@ -58,7 +58,7 @@ Le projet inclut une adaptation pour :
 💻 Desktop
 🔧 Techniques utilisées :
 Media Queries (@media)
-Flexbox / Grid (si utilisé)
+Flexbox / Grid 
 Adaptation des tailles et alignements
 🚀 Version Bootstrap
 
@@ -73,4 +73,4 @@ Classes utilitaires puissantes
 🛠 Technologies utilisées
 HTML5
 CSS3
-Bootstrap (version X.X si tu veux préciser)
+Bootstrap 
